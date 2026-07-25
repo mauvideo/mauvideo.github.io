@@ -204,7 +204,14 @@
   .flash-sub{display:flex; align-items:center; gap:12px; color:var(--text-dim); font-size:13.5px; margin:6px 0 0 56px;}
   .countdown{color:var(--pink); font-family:'IBM Plex Mono', monospace; font-weight:600;}
 
-  .cases{display:grid; grid-template-columns:repeat(4,1fr); gap:18px; padding:22px 32px 70px;}
+  .cases{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
+    gap:18px;
+    padding:22px 32px 70px;
+    max-width:1440px;
+    margin:0 auto;
+  }
   .case-card{
     display:block;
     background:var(--surface); border:1px solid var(--line); border-radius:14px;
@@ -253,8 +260,10 @@
     background:rgba(139,92,246,0.92); backdrop-filter:blur(2px);
     display:flex; align-items:center; justify-content:center;
     box-shadow:0 6px 20px rgba(139,92,246,0.5); z-index:3; cursor:pointer;
-    transition:transform .15s ease;
+    opacity:0; pointer-events:none;
+    transition:transform .15s ease, opacity .2s ease;
   }
+  .play-center.show{opacity:1; pointer-events:auto;}
   .play-center:hover{transform:translate(-50%,-50%) scale(1.1);}
   .play-center::after{
     content:''; width:0; height:0;
@@ -404,10 +413,11 @@
     .menu-btn{display:block;}
     .topnav{display:none;}
     .hero-card{grid-template-columns:1fr;}
-    .cases{grid-template-columns:repeat(2,1fr);}
+    .cases{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:10px; padding-left:10px; padding-right:10px;}
+    .case-info{padding:10px 10px;}
     .metrics{grid-template-columns:repeat(2,1fr); row-gap:24px;}
     .testireel{grid-template-columns:1fr;}
-    .hero, .flash-strip, .cases{padding-left:16px; padding-right:16px;}
+    .hero, .flash-strip{padding-left:16px; padding-right:16px;}
     .d-wrap{padding:28px 18px 80px;}
     .d-contact-card{flex-direction:column; align-items:flex-start;}
     .faq-question{padding:18px 18px;}
@@ -1219,6 +1229,7 @@
       const vid = thumb.dataset.youtube;
       const playBtn = thumb.querySelector('.play-center');
       let frame = null;
+      let revealed = false;
 
       function showFrame(){
         if(frame) return;
@@ -1228,9 +1239,21 @@
         frame.allow = 'autoplay; encrypted-media; picture-in-picture';
         thumb.appendChild(frame);
         requestAnimationFrame(() => frame.classList.add('on'));
-        if(playBtn) playBtn.style.display = 'none';
+        if(playBtn) playBtn.classList.remove('show');
       }
 
+      // Lần chạm thứ 1 vào ảnh bìa: chỉ hiện nút play, không phát video, không chuyển trang
+      thumb.addEventListener('click', (e) => {
+        if(frame) return; // video đã chạy thì thôi
+        if(!revealed){
+          e.preventDefault();
+          e.stopPropagation();
+          revealed = true;
+          if(playBtn) playBtn.classList.add('show');
+        }
+      });
+
+      // Lần chạm thứ 2: bấm đúng vào nút play mới thực sự phát video
       if(playBtn){
         playBtn.addEventListener('click', (e) => {
           e.preventDefault();
