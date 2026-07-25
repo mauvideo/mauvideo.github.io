@@ -605,7 +605,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>© 2026 Mẫu Làm Video</span>
+        <span>© 2026 Tự Làm Video AI</span>
         <div><a href="#how">Cách hoạt động</a><a href="#cases">Sản phẩm</a><a href="#reviews">Đánh giá</a></div>
       </div>
     </footer>
@@ -1054,7 +1054,7 @@
     document.getElementById('pPriceOld').textContent = p.priceOld;
     document.getElementById('pDesc').textContent = p.desc;
     document.getElementById('pFeatures').innerHTML = p.features.map(f => `<li><span class="dot">✓</span>${f}</li>`).join('');
-    document.title = p.title + " — Mẫu Làm Video";
+    document.title = p.title + " — lÀM VIDEO AI";
 
     const coverEl = document.getElementById('pCover');
     if(p.youtube){
@@ -1078,7 +1078,7 @@
     } else {
       homeView.style.display = 'block';
       detailView.style.display = 'none';
-      document.title = "Mẫu Làm Video — App Làm Video Tự động";
+      document.title = "Làm Video AI — App Làm Video Tự động";
     }
     if(sidebar) sidebar.classList.remove('open');
   }
