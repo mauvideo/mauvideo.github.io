@@ -161,6 +161,32 @@
     font-size:28px; cursor:pointer; line-height:1;
   }
 
+  .float-zalo{
+    position:fixed; right:22px; bottom:22px; z-index:150;
+    height:52px; padding:0 18px 0 12px; border-radius:999px;
+    background:#0068FF; display:flex; align-items:center; gap:8px;
+    box-shadow:0 8px 24px rgba(0,104,255,0.45);
+    animation:zaloPulse 2.4s ease-in-out infinite;
+    transition:transform .15s ease;
+  }
+  .float-zalo .zalo-icon{
+    width:36px; height:36px; border-radius:50%; background:#fff;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .float-zalo .zalo-label{
+    color:#fff; font-size:13.5px; font-weight:700; white-space:nowrap;
+  }
+  .float-zalo:hover{transform:scale(1.05);}
+  @keyframes zaloPulse{
+    0%,100%{box-shadow:0 8px 24px rgba(0,104,255,0.45);}
+    50%{box-shadow:0 8px 24px rgba(0,104,255,0.75), 0 0 0 8px rgba(0,104,255,0.12);}
+  }
+  @media (max-width:600px){
+    .float-zalo{right:14px; bottom:14px; height:48px; padding:0 14px 0 10px;}
+    .float-zalo .zalo-icon{width:32px; height:32px;}
+    .float-zalo .zalo-label{font-size:12.5px;}
+  }
+
   .flash-strip{padding:44px 32px 18px;}
   .flash-head{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
   .flash-icon{
@@ -611,6 +637,13 @@
 
   </div>
 </div>
+
+<a href="https://zalo.me/0342894222" target="_blank" rel="noopener" class="float-zalo" aria-label="Chat Zalo">
+  <span class="zalo-icon">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0068FF"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="800" font-family="Arial" fill="#fff">Zalo</text></svg>
+  </span>
+  <span class="zalo-label">Cần hỗ trợ</span>
+</a>
 
 <div class="lightbox" id="lightbox">
   <div class="lightbox-inner" id="lightboxInner">
