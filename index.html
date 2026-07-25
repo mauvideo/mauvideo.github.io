@@ -419,7 +419,7 @@
     .menu-btn{display:block;}
     .topnav{display:none;}
     .hero-card{grid-template-columns:1fr;}
-    .cases{grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:8px; padding-left:8px; padding-right:8px;}
+    .cases{grid-template-columns:repeat(3, 1fr); gap:10px; padding-left:10px; padding-right:10px;}
     .case-info{padding:8px 9px 9px;}
     .metrics{grid-template-columns:repeat(2,1fr); row-gap:24px;}
     .testireel{grid-template-columns:1fr;}
@@ -428,6 +428,10 @@
     .d-contact-card{flex-direction:column; align-items:flex-start;}
     .faq-question{padding:18px 18px;}
     .faq-question h3{font-size:14.5px;}
+  }
+
+  @media (max-width:600px){
+    .cases{grid-template-columns:repeat(2, 1fr); gap:8px; padding-left:8px; padding-right:8px;}
   }
 </style>
 </head>
