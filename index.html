@@ -396,19 +396,9 @@
   <aside class="sidebar" id="sidebar">
     <div class="sb-logo"><span class="icon">✦</span>App Làm Video Tự động</div>
 
-    <div class="sb-group-label">Khám phá</div>
-    <a class="sb-item active" href="#/"><span class="ico">🏠</span>Trang chủ</a>
-    <a class="sb-item"><span class="ico">📄</span>Prompt miễn phí</a>
-
-    <div class="sb-group-label">Sản phẩm</div>
-    <a class="sb-item"><span class="ico">💬</span>Chatbot</a>
-    <a class="sb-item"><span class="ico">🧩</span>Workflow</a>
-    <a class="sb-item"><span class="ico">📱</span>App</a>
-    <a class="sb-item"><span class="ico">🧩</span>VEO3 Workflow</a>
-
-    <div class="sb-group-label">Khác</div>
-    <a class="sb-item"><span class="ico">💳</span>Bảng giá</a>
-    <a class="sb-item"><span class="ico">ℹ️</span>Giới thiệu</a>
+    <!-- Link Zalo cộng đồng: đổi href="#" bên dưới thành link Zalo thật khi có -->
+    <a class="sb-item" href="#" target="_blank" rel="noopener"><span class="ico">📄</span>Prompt miễn phí</a>
+    <a class="sb-item" href="#/gioi-thieu"><span class="ico">ℹ️</span>Giới thiệu</a>
 
     <div class="sb-collapse">‹ Thu nhỏ</div>
   </aside>
@@ -419,10 +409,6 @@
       <div class="brand"><span class="bicon">✦</span>Mẫu Làm<span class="accent">Video</span></div>
       <nav class="topnav">
         <a class="active" href="#/">Trang chủ</a>
-        <a>Sản phẩm ▾</a>
-        <a>Bảng giá</a>
-        <a>Đánh giá AI</a>
-        <a>Hướng dẫn</a>
       </nav>
       <div style="display:flex; align-items:center; gap:14px;">
         <button class="menu-btn" id="menuBtn">☰</button>
@@ -553,6 +539,18 @@
       </div>
     </div>
 
+    <!-- ========== TRANG GIỚI THIỆU (bạn tự viết nội dung ở đây) ========== -->
+    <div id="aboutView" style="display:none;">
+      <div class="d-wrap">
+        <div class="d-breadcrumb"><a href="#/">Trang chủ</a> / <span>Giới thiệu</span></div>
+        <h1 class="d-title">Giới thiệu</h1>
+        <p class="d-desc">
+          <!-- Xóa dòng chữ mẫu bên dưới, thay bằng nội dung giới thiệu thật của bạn -->
+          Nội dung giới thiệu sẽ được cập nhật sau.
+        </p>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <div class="footer-top footer-columns">
         <div class="footer-col footer-col-brand">
@@ -593,7 +591,6 @@
         <div class="footer-col">
           <div class="footer-col-title">VỀ ADMIN</div>
           <p class="footer-col-text">
-            <!-- Bạn tự viết nội dung giới thiệu về admin/người quản trị vào đây -->
             Nội dung giới thiệu về admin sẽ được cập nhật sau.
           </p>
         </div>
@@ -601,7 +598,6 @@
         <div class="footer-col">
           <div class="footer-col-title">CHÍNH SÁCH BẢO HÀNH</div>
           <p class="footer-col-text">
-            <!-- Bạn tự viết nội dung chính sách bảo hành vào đây -->
             Nội dung chính sách bảo hành sẽ được cập nhật sau.
           </p>
         </div>
@@ -623,10 +619,6 @@
 </div>
 
 <script>
-  /* =========================================================
-     DANH SÁCH SẢN PHẨM — CHỈ CẦN SỬA PHẦN NÀY
-     ========================================================= */
-
     const PRODUCTS = [
     {
       id: "1",
@@ -967,18 +959,9 @@
         "Không Cần prompt cho video",
         "Tự tạo giọng đoc review"
       ]
-    },
+    }
   ];
 
-  /* =========================================================
-     DANH SÁCH CÂU HỎI - CÂU TRẢ LỜI (FAQ) — CHỈ CẦN SỬA PHẦN NÀY
-     =========================================================
-     Mỗi lần thêm/sửa câu hỏi, copy 1 khối { ... } bên dưới, hoặc
-     sửa trực tiếp "question" và "answer" của khối có sẵn.
-     - question : câu hỏi hiện ra, bấm vào sẽ xổ câu trả lời
-     - answer   : câu trả lời chi tiết
-     - open     : true nếu muốn câu này mở sẵn khi tải trang, false nếu đóng
-     ========================================================= */
   const FAQS = [
     {
       question: "Nhập thông tin sản phẩm như thế nào?",
@@ -997,12 +980,9 @@
     }
   ];
 
-  // ========================================================
-  // TỪ ĐÂY TRỞ XUỐNG LÀ CODE VẬN HÀNH — KHÔNG CẦN SỬA
-  // ========================================================
-
   const homeView = document.getElementById('homeView');
   const detailView = document.getElementById('detailView');
+  const aboutView = document.getElementById('aboutView');
   const casesGrid = document.getElementById('casesGrid');
   const faqList = document.getElementById('faqList');
 
@@ -1110,18 +1090,25 @@
     }
   }
 
-  // ===== Điều hướng theo # (không cần load lại trang, không cần nhiều file) =====
   function route(){
-    const hash = window.location.hash; // ví dụ: "#/chi-tiet/2" hoặc "#/" hoặc ""
-    const match = hash.match(/^#\/chi-tiet\/(.+)$/);
-    if(match){
-      homeView.style.display = 'none';
+    const hash = window.location.hash;
+    const detailMatch = hash.match(/^#\/chi-tiet\/(.+)$/);
+    const isAbout = hash === '#/gioi-thieu';
+
+    homeView.style.display = 'none';
+    detailView.style.display = 'none';
+    aboutView.style.display = 'none';
+
+    if(detailMatch){
       detailView.style.display = 'block';
-      renderDetail(match[1]);
+      renderDetail(detailMatch[1]);
+      window.scrollTo(0,0);
+    } else if(isAbout){
+      aboutView.style.display = 'block';
+      document.title = "Giới thiệu — Làm Video AI";
       window.scrollTo(0,0);
     } else {
       homeView.style.display = 'block';
-      detailView.style.display = 'none';
       document.title = "Làm Video AI — App Làm Video Tự động";
     }
     if(sidebar) sidebar.classList.remove('open');
@@ -1159,7 +1146,6 @@
   document.querySelectorAll('.reveal').forEach(el => { if(io) io.observe(el); });
   route();
 
-  // ===== Khung phóng to (dùng chung cho video hero & nút play trên thẻ sản phẩm) =====
   const lightbox = document.getElementById('lightbox');
   const lightboxInner = document.getElementById('lightboxInner');
   const lightboxClose = document.getElementById('lightboxClose');
@@ -1195,8 +1181,6 @@
     });
   });
 
-  // Nút play tròn giữa mỗi thẻ sản phẩm -> mở video Youtube của đúng sản phẩm đó,
-  // không chuyển sang trang chi tiết (chặn hành vi bấm vào link bao ngoài)
   function bindPlayButtons(){
     document.querySelectorAll('.case-thumb[data-youtube]').forEach(thumb => {
       const vid = thumb.dataset.youtube;
@@ -1214,7 +1198,6 @@
         if(playBtn) playBtn.style.display = 'none';
       }
 
-      // Chỉ khi bấm vào nút play (ảnh bìa hiện sẵn bình thường) -> video mới phát, có tiếng, có nút điều khiển
       if(playBtn){
         playBtn.addEventListener('click', (e) => {
           e.preventDefault();
