@@ -1218,9 +1218,8 @@
     const el = document.getElementById('visitCount');
     if(!el) return;
     const OFFSET = 1300;
-    const namespace = 'mauvideo-github-io';
-    const key = 'homepage';
-    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+    const key = 'mauvideo-github-io-homepage-visits';
+    fetch(`https://countapi.mileshilliard.com/api/v1/hit/${key}`)
       .then(r => r.json())
       .then(data => {
         const total = OFFSET + (data.value || 0);
