@@ -1313,9 +1313,21 @@
         }
       });
 
+      // Trên máy tính (có chuột): chỉ cần rê chuột vào là nút play tự hiện ngay, không cần bấm
+      thumb.addEventListener('mouseenter', () => {
+        if(frame) return;
+        revealed = true;
+        if(playBtn) playBtn.classList.add('show');
+      });
+
       // Cách 1 — di chuột sang thẻ sản phẩm khác (rời khỏi thẻ này) thì tự tạm dừng video (chỉ áp dụng trên máy tính, có chuột)
       thumb.addEventListener('mouseleave', () => {
-        if(frame) hideFrame();
+        if(frame){
+          hideFrame();
+        } else if(playBtn){
+          playBtn.classList.remove('show');
+          revealed = false;
+        }
       });
 
       if(playBtn){
