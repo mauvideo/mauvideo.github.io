@@ -1274,6 +1274,16 @@
           showFrame();
         });
       }
+
+      // Rời chuột khỏi ảnh (hoặc chuyển sang xem sản phẩm khác): dừng và gỡ video đang phát
+      thumb.addEventListener('mouseleave', () => {
+        if(frame){
+          frame.remove();
+          frame = null;
+        }
+        revealed = false;
+        if(playBtn) playBtn.classList.remove('show');
+      });
     });
   }
 
