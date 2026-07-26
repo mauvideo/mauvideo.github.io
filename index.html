@@ -206,7 +206,7 @@
 
   .cases{
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
     gap:18px;
     padding:22px 32px 70px;
     max-width:1440px;
@@ -270,15 +270,20 @@
     transition:transform .15s ease, opacity .2s ease;
   }
   .play-center.show{opacity:1; pointer-events:auto;}
-  @media (hover:hover) and (pointer:fine){
-    .case-thumb:hover .play-center{opacity:1; pointer-events:auto;}
-  }
   .play-center:hover{transform:translate(-50%,-50%) scale(1.1);}
   .play-center::after{
     content:''; width:0; height:0;
     border-left:12px solid #fff; border-top:8px solid transparent; border-bottom:8px solid transparent;
     margin-left:3px;
   }
+  .video-pause-btn{
+    position:absolute; top:8px; right:8px; z-index:4;
+    width:30px; height:30px; border-radius:50%; border:none;
+    background:rgba(10,8,18,0.75); color:#fff; font-size:13px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .video-pause-btn:hover{background:rgba(139,92,246,0.9); transform:scale(1.08);}
 
   section{padding:70px 32px;}
   .section-head{max-width:640px; margin:0 auto 44px;}
@@ -363,6 +368,13 @@
     color:var(--text-dim2); margin-bottom:12px;
   }
   .footer-social-row{display:flex; gap:10px; margin-bottom:26px; flex-wrap:wrap;}
+  .visit-counter{
+    display:inline-flex; align-items:center; gap:6px; width:fit-content;
+    background:rgba(139,92,246,0.12); border:1px solid rgba(167,139,250,0.35);
+    border-radius:10px; padding:9px 14px; margin-bottom:22px;
+    font-size:12.5px; color:var(--text-dim);
+  }
+  .visit-counter span{color:var(--purple-soft); font-weight:700; font-family:'IBM Plex Mono', monospace;}
   .social-icon{
     display:inline-flex; align-items:center; gap:6px;
     width:40px; height:40px; border-radius:10px; background:var(--surface); border:1px solid var(--line);
@@ -443,7 +455,7 @@
 <div class="app-shell">
 
   <aside class="sidebar" id="sidebar">
-    <div class="sb-logo"><span class="icon">✦</span>App Làm Video Tự động</div>
+    <div class="sb-logo"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17 10.5V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3.5l4 4v-11l-4 4Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg></span>App Làm Video Tự động</div>
 
     <!-- Link Zalo cộng đồng: đổi href="#" bên dưới thành link Zalo thật khi có -->
     <a class="sb-item" href="#" target="_blank" rel="noopener"><span class="ico">📄</span>Prompt miễn phí</a>
@@ -455,7 +467,7 @@
   <div class="main">
 
     <header class="topbar">
-      <div class="brand"><span class="bicon">✦</span>Mẫu Làm<span class="accent">Video</span></div>
+      <div class="brand"><span class="bicon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M17 10.5V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3.5l4 4v-11l-4 4Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg></span>Mẫu Làm<span class="accent">Video</span></div>
       <nav class="topnav">
         <a class="active" href="#/">Trang chủ</a>
       </nav>
@@ -605,7 +617,7 @@
         <div class="footer-col footer-col-brand">
           <div class="footer-brand">
             <div class="footer-brand-name">
-              <span class="footer-logo">✦</span>
+              <span class="footer-logo"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M17 10.5V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3.5l4 4v-11l-4 4Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
               <span>Làm Video<span class="accent">AI Tự Động</span></span>
             </div>
             <p class="footer-tagline">App video tạo Prompt tự động</p>
@@ -624,10 +636,10 @@
             <a href="#" class="social-icon tt" aria-label="TikTok" title="TikTok (điền link sau)">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M16.6 5.82c-1.02-.85-1.66-2.14-1.66-3.55h-3.02v14.32c0 1.55-1.26 2.81-2.81 2.81a2.81 2.81 0 0 1-2.81-2.81 2.81 2.81 0 0 1 2.81-2.81c.29 0 .57.04.83.13V10.9a5.9 5.9 0 0 0-.83-.06 5.84 5.84 0 0 0-5.84 5.84A5.84 5.84 0 0 0 9.11 22.5a5.84 5.84 0 0 0 5.84-5.84V9.03a7.5 7.5 0 0 0 4.38 1.4V7.4a4.47 4.47 0 0 1-2.73-1.58Z" fill="#fff"/></svg>
             </a>
-            <a href="#" class="social-icon zalo" aria-label="Zalo" title="Zalo (điền link sau)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#fff"/><text x="12" y="16.5" text-anchor="middle" font-size="10" font-weight="800" font-family="Arial" fill="#0068FF">Zalo</text></svg>
-              <span>Zalo</span>
-            </a>
+          </div>
+
+          <div class="visit-counter">
+            Lượt truy cập: <span id="visitCount">1.300</span>
           </div>
 
           <div class="footer-contact">
@@ -1202,6 +1214,23 @@
   document.querySelectorAll('.reveal').forEach(el => { if(io) io.observe(el); });
   route();
 
+  (function(){
+    const el = document.getElementById('visitCount');
+    if(!el) return;
+    const OFFSET = 1300;
+    const namespace = 'mauvideo-github-io';
+    const key = 'homepage';
+    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+      .then(r => r.json())
+      .then(data => {
+        const total = OFFSET + (data.value || 0);
+        el.textContent = total.toLocaleString('vi-VN');
+      })
+      .catch(() => {
+        el.textContent = OFFSET.toLocaleString('vi-VN');
+      });
+  })();
+
   const lightbox = document.getElementById('lightbox');
   const lightboxInner = document.getElementById('lightboxInner');
   const lightboxClose = document.getElementById('lightboxClose');
@@ -1243,6 +1272,7 @@
       const playBtn = thumb.querySelector('.play-center');
       let frame = null;
       let revealed = false;
+      let pauseBtn = null;
 
       function showFrame(){
         if(frame) return;
@@ -1253,11 +1283,29 @@
         thumb.appendChild(frame);
         requestAnimationFrame(() => frame.classList.add('on'));
         if(playBtn) playBtn.classList.remove('show');
+
+        // Nút tạm dừng thủ công (cách 2) — hiện góc trên khi video đang phát
+        pauseBtn = document.createElement('button');
+        pauseBtn.className = 'video-pause-btn';
+        pauseBtn.innerHTML = '⏸';
+        pauseBtn.setAttribute('aria-label', 'Tạm dừng video');
+        pauseBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          hideFrame();
+        });
+        thumb.appendChild(pauseBtn);
       }
 
-      // Lần chạm thứ 1 vào ảnh bìa: chỉ hiện nút play, không phát video, không chuyển trang
+      function hideFrame(){
+        if(frame){ frame.remove(); frame = null; }
+        if(pauseBtn){ pauseBtn.remove(); pauseBtn = null; }
+        revealed = false;
+        if(playBtn) playBtn.classList.remove('show');
+      }
+
       thumb.addEventListener('click', (e) => {
-        if(frame) return; // video đã chạy thì thôi
+        if(frame) return;
         if(!revealed){
           e.preventDefault();
           e.stopPropagation();
@@ -1266,7 +1314,11 @@
         }
       });
 
-      // Lần chạm thứ 2: bấm đúng vào nút play mới thực sự phát video
+      // Cách 1 — di chuột sang thẻ sản phẩm khác (rời khỏi thẻ này) thì tự tạm dừng video (chỉ áp dụng trên máy tính, có chuột)
+      thumb.addEventListener('mouseleave', () => {
+        if(frame) hideFrame();
+      });
+
       if(playBtn){
         playBtn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -1274,16 +1326,6 @@
           showFrame();
         });
       }
-
-      // Rời chuột khỏi ảnh (hoặc chuyển sang xem sản phẩm khác): dừng và gỡ video đang phát
-      thumb.addEventListener('mouseleave', () => {
-        if(frame){
-          frame.remove();
-          frame = null;
-        }
-        revealed = false;
-        if(playBtn) playBtn.classList.remove('show');
-      });
     });
   }
 
