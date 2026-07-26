@@ -270,6 +270,9 @@
     transition:transform .15s ease, opacity .2s ease;
   }
   .play-center.show{opacity:1; pointer-events:auto;}
+  @media (hover:hover) and (pointer:fine){
+    .case-thumb:hover .play-center{opacity:1; pointer-events:auto;}
+  }
   .play-center:hover{transform:translate(-50%,-50%) scale(1.1);}
   .play-center::after{
     content:''; width:0; height:0;
