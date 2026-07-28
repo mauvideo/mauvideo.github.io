@@ -1327,11 +1327,10 @@
         if(playBtn) playBtn.classList.add('show');
       });
 
-      // Cách 1 — di chuột sang thẻ sản phẩm khác (rời khỏi thẻ này) thì tự tạm dừng video (chỉ áp dụng trên máy tính, có chuột)
+      // Đã bỏ: tự động tạm dừng video khi rê chuột ra khỏi thẻ.
+      // Video giờ chỉ dừng khi bấm nút tạm dừng (⏸) hoặc bấm ra ngoài lightbox.
       thumb.addEventListener('mouseleave', () => {
-        if(frame){
-          hideFrame();
-        } else if(playBtn){
+        if(!frame && playBtn){
           playBtn.classList.remove('show');
           revealed = false;
         }
