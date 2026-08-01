@@ -461,6 +461,7 @@
 
     <!-- Link Zalo cộng đồng: đổi href="#" bên dưới thành link Zalo thật khi có -->
     <a class="sb-item" href="https://zalo.me/g/iiq74tkcsyd1vo8caqqo" target="_blank" rel="noopener"><span class="ico">📄</span>Prompt miễn phí</a>
+    <a class="sb-item" href="#/giong-doc"><span class="ico">🎙️</span>App giọng đọc</a>
     <a class="sb-item" href="#/gioi-thieu"><span class="ico">ℹ️</span>Giới thiệu</a>
 
     <div class="sb-collapse">‹ Thu nhỏ</div>
@@ -602,6 +603,54 @@
       </div>
     </div>
 
+    <!-- ========== TRANG APP GIỌNG ĐỌC ========== -->
+    <!--
+      HƯỚNG DẪN CẬP NHẬT NỘI DUNG TRANG NÀY:
+      Kéo xuống phần <script>, tìm biến "VOICE_APP" ở gần đầu để:
+      - Dán ID video Youtube (hoặc để trống và dùng ảnh cover) vào "youtube"
+      - Sửa mô tả dài trong "desc"
+      - Sửa giá bán trong "priceNow" / "priceOld"
+      - Sửa danh sách tính năng trong "features"
+    -->
+    <div id="voiceAppView" style="display:none;">
+      <div class="d-wrap">
+        <div class="d-breadcrumb"><a href="#/">Trang chủ</a> / <span>App giọng đọc</span></div>
+
+        <div class="d-cover" id="vCover"></div>
+
+        <h1 class="d-title" id="vTitle"></h1>
+        <p class="d-subtitle" id="vSubtitle"></p>
+
+        <div class="d-price-row">
+          <span class="d-price-now" id="vPriceNow"></span>
+          <span class="d-price-old" id="vPriceOld"></span>
+        </div>
+
+        <div class="d-cta-row">
+          <a href="https://zalo.me/0342894222" target="_blank" rel="noopener" class="btn zalo">💬 Liên hệ qua Zalo</a>
+          <a href="#start" class="btn">Dùng thử ngay →</a>
+        </div>
+
+        <div class="d-section">
+          <h2>Mô tả</h2>
+          <p class="d-desc" id="vDesc"></p>
+        </div>
+
+        <div class="d-section">
+          <h2>Tính năng nổi bật</h2>
+          <ul class="d-features" id="vFeatures"></ul>
+        </div>
+
+        <div class="d-contact-card">
+          <div>
+            <h3>Cần tư vấn trước khi mua?</h3>
+            <p>Nhắn Zalo để được hỗ trợ chọn gói phù hợp, giải đáp mọi thắc mắc.</p>
+          </div>
+          <a href="https://zalo.me/0342894222" target="_blank" rel="noopener" class="btn zalo">💬 Nhắn Zalo: 0342 894 222</a>
+        </div>
+      </div>
+    </div>
+
     <!-- ========== TRANG GIỚI THIỆU (bạn tự viết nội dung ở đây) ========== -->
     <div id="aboutView" style="display:none;">
       <div class="d-wrap">
@@ -689,6 +738,54 @@
 </div>
 
 <script>
+    // ======================================================
+    // APP GIỌNG ĐỌC — sửa nội dung trang con tại đây
+    // - youtube: dán ID video Youtube demo (phần sau "v=" trong link)
+    //   Ví dụ link: https://www.youtube.com/watch?v=dQw4w9WgXcQ -> youtube: "dQw4w9WgXcQ"
+    //   Nếu chưa có video, để trống "" và dùng "coverImage" thay thế.
+    // - coverImage: link ảnh cover (dùng khi không có youtube)
+    // - desc: mô tả dài, có thể xuống dòng thoải mái
+    // - priceNow / priceOld: giá bán / giá gốc (để "0đ" nếu không muốn hiện giá gốc)
+    // - features: danh sách tính năng nổi bật
+    // ======================================================
+    const VOICE_APP = {
+      title: "App Giọng Đọc AI Tự Động",
+      subtitle: "Tự động tạo giọng đọc chuyên nghiệp cho video, không cần thu âm",
+      youtube: "",
+      coverImage: "",
+      priceNow: "0đ",
+      priceOld: "0đ",
+      desc: "Dán mô tả dài về App Giọng Đọc vào đây. Bạn có thể mô tả chi tiết cách app hoạt động, ưu điểm, đối tượng phù hợp sử dụng...",
+      features: [
+        "Tính năng 1 — sửa nội dung tại đây",
+        "Tính năng 2 — sửa nội dung tại đây",
+        "Tính năng 3 — sửa nội dung tại đây"
+      ]
+    };
+
+    function renderVoiceApp(){
+      const p = VOICE_APP;
+      document.getElementById('vTitle').textContent = p.title;
+      document.getElementById('vSubtitle').textContent = p.subtitle;
+      document.getElementById('vPriceNow').textContent = p.priceNow;
+      document.getElementById('vPriceOld').textContent = p.priceOld;
+      document.getElementById('vDesc').textContent = p.desc;
+      document.getElementById('vFeatures').innerHTML = p.features.map(f => `<li><span class="dot">✓</span>${f}</li>`).join('');
+      document.title = p.title + " — lÀM VIDEO AI";
+
+      const coverEl = document.getElementById('vCover');
+      if(p.youtube){
+        coverEl.style.background = 'transparent';
+        coverEl.innerHTML = `<iframe style="position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:18px;" src="https://www.youtube.com/embed/${p.youtube}" title="${p.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      } else if(p.coverImage){
+        coverEl.style.background = `center/cover no-repeat url(${p.coverImage})`;
+        coverEl.innerHTML = '';
+      } else {
+        coverEl.style.background = 'linear-gradient(165deg,#2A1B5C,#141024 65%)';
+        coverEl.innerHTML = '<div style="color:var(--text-dim); font-size:13.5px; align-self:center; margin:auto;">Chưa có video/ảnh — cập nhật trong biến VOICE_APP</div>';
+      }
+    }
+
     const PRODUCTS = [
     {
       id: "1",
@@ -1197,6 +1294,7 @@
 
   const homeView = document.getElementById('homeView');
   const detailView = document.getElementById('detailView');
+  const voiceAppView = document.getElementById('voiceAppView');
   const aboutView = document.getElementById('aboutView');
   const casesGrid = document.getElementById('casesGrid');
   const faqList = document.getElementById('faqList');
@@ -1309,14 +1407,20 @@
     const hash = window.location.hash;
     const detailMatch = hash.match(/^#\/chi-tiet\/(.+)$/);
     const isAbout = hash === '#/gioi-thieu';
+    const isVoiceApp = hash === '#/giong-doc';
 
     homeView.style.display = 'none';
     detailView.style.display = 'none';
+    voiceAppView.style.display = 'none';
     aboutView.style.display = 'none';
 
     if(detailMatch){
       detailView.style.display = 'block';
       renderDetail(detailMatch[1]);
+      window.scrollTo(0,0);
+    } else if(isVoiceApp){
+      voiceAppView.style.display = 'block';
+      renderVoiceApp();
       window.scrollTo(0,0);
     } else if(isAbout){
       aboutView.style.display = 'block';
