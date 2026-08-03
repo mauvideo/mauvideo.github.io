@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; cd "$ROOT"
-URL=""; VOICE="vi-VN-HoaiMyNeural"; STYLE="news"
+URL=""; VOICE="vi-VN-NamMinhNeural"; STYLE="news"
 while (($#)); do case "$1" in --url) URL="${2:-}"; shift 2;; --voice) VOICE="${2:-}"; shift 2;; --style) STYLE="${2:-}"; shift 2;; *) echo "Tham số không hợp lệ: $1" >&2; exit 2;; esac; done
 [[ -n "$URL" ]] || { echo "Cách dùng: $0 --url <URL> [--style news|nightfall|editorial] [--voice VOICE]" >&2; exit 2; }
 [[ "$STYLE" =~ ^(news|nightfall|editorial)$ ]] || { echo "--style phải là news, nightfall hoặc editorial" >&2; exit 2; }
