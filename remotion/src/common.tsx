@@ -1,0 +1,2 @@
+import React from 'react'; import {Img,interpolate,staticFile,useCurrentFrame,useVideoConfig} from 'remotion';
+export const Photo:React.FC<{path:string;radius?:number}>=({path,radius=24})=>{const f=useCurrentFrame(),{durationInFrames}=useVideoConfig();const scale=interpolate(f,[0,durationInFrames],[1.02,1.14],{extrapolateRight:'clamp'});return <Img src={staticFile(path.replace(/^\.\//,''))} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:radius,transform:`scale(${scale})`}}/>};
