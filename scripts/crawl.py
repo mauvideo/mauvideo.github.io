@@ -41,10 +41,11 @@ def main():
             path = image_dir / f"article-{len(downloaded)+1:02}.{kind}"; path.write_bytes(r.content)
             downloaded.append(str(path))
         except requests.RequestException as exc: print(f"Bỏ qua ảnh {src}: {exc}", file=sys.stderr)
-    if len(downloaded) < 3: raise SystemExit(f"Lỗi: bài báo chỉ tải được {len(downloaded)} ảnh hợp lệ; cần ít nhất 3 ảnh.")
+    # Images are optional: later stages reuse sparse images or make a title card.
+    if not title or not paragraphs:
+        raise SystemExit("Lỗi: không lấy được nội dung bài báo.")
     data = {"url": a.url, "title": title, "published_at": clean(date_el.get_text(" ")) if date_el else None,
             "content": "\n".join(paragraphs), "images": downloaded}
     out.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Đã cào {len(paragraphs)} đoạn và {len(downloaded)} ảnh → {out}")
 if __name__ == "__main__": main()
-
