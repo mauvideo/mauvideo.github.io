@@ -1,0 +1,15 @@
+remotion/node_modules/
+remotion/public/
+.cache/
+.venv/
+__pycache__/
+assets/article.json
+assets/scenes.json
+assets/render-props.json
+assets/audio/
+assets/images/article-*
+output/video.mp4
+output/preview.png
+assets/audio/*.mp3
+assets/images/*.jpg
+assets/images/*.png
