@@ -1,0 +1,83 @@
+name: Create article video
+
+on:
+  workflow_dispatch:
+    inputs:
+      article_url:
+        description: "Dán link bài báo cần tạo video"
+        required: true
+        type: string
+      style:
+        description: "Phong cách video"
+        required: true
+        default: "news"
+        type: choice
+        options:
+          - news
+          - editorial
+          - nightfall
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    name: Render video
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Cài Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: remotion/package-lock.json
+
+      - name: Cài FFmpeg và Chromium
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg chromium-browser || sudo apt-get install -y ffmpeg chromium
+
+      - name: Cài thư viện Python
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: Cài thư viện Remotion
+        run: npm --prefix remotion ci
+
+      - name: Tạo video
+        env:
+          ARTICLE_URL: ${{ inputs.article_url }}
+          VIDEO_STYLE: ${{ inputs.style }}
+        run: |
+          chmod +x make_video.sh
+          ./make_video.sh --url "$ARTICLE_URL" --style "$VIDEO_STYLE"
+
+      - name: Kiểm tra video
+        run: |
+          test -s output/video.mp4
+          test -s output/preview.png
+          ffprobe -v error \
+            -show_entries stream=codec_name,width,height,r_frame_rate \
+            -show_entries format=duration,size \
+            -of default=noprint_wrappers=1 output/video.mp4
+
+      - name: Tải video lên Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: article-video
+          path: |
+            output/video.mp4
+            output/preview.png
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
