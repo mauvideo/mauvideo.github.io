@@ -20,7 +20,7 @@ npm --prefix remotion install
 ./make_video.sh --url "https://vnexpress.net/duong-dan-bai-bao" --style nightfall --voice vi-VN-NamMinhNeural
 ```
 
-Kết quả ở `output/video.mp4`, ảnh xem trước ở `output/preview.png`. Bài nguồn phải có ít nhất ba ảnh đủ lớn.
+Kết quả ở `output/video.mp4`, ảnh xem trước ở `output/preview.png`. Pipeline tự tạo các cảnh zoom/pan/crop khi chỉ có một ảnh, xen kẽ khi có hai ảnh và dùng thẻ tiêu đề mặc định khi bài không có ảnh.
 
 | `--style` | Thiết kế |
 |---|---|
