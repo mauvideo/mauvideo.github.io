@@ -395,6 +395,86 @@
   .reveal{opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:translateY(0);}
 
+  /* ===== POPUP THÔNG BÁO KHI KHÁCH TRUY CẬP ===== */
+  .announce-overlay{
+    display:none; position:fixed; inset:0; z-index:300;
+    background:rgba(5,4,10,0.72); backdrop-filter:blur(3px);
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .announce-overlay.open{display:flex;}
+  .announce-card-wrap{
+    position:relative; width:100%; max-width:420px; border-radius:22px; padding:3px;
+    overflow:hidden; isolation:isolate;
+    box-shadow:0 30px 80px -20px rgba(139,92,246,0.55);
+    animation:announceIn .35s cubic-bezier(.2,.9,.3,1.2);
+  }
+  .announce-card-wrap::before{
+    content:''; position:absolute; inset:-65%; z-index:0;
+    background:conic-gradient(from 0deg, #8B5CF6, #3B82F6, #22C55E, #F97316, #F43F5E, #A78BFA, #8B5CF6);
+    animation:announceBorderSpin 3.2s linear infinite;
+  }
+  @keyframes announceBorderSpin{
+    to{transform:rotate(360deg);}
+  }
+  .announce-card{
+    position:relative; z-index:1; width:100%;
+    background:var(--surface); border-radius:19px; overflow:hidden;
+  }
+  @keyframes announceIn{
+    from{opacity:0; transform:scale(.92) translateY(10px);}
+    to{opacity:1; transform:scale(1) translateY(0);}
+  }
+  .announce-close{
+    position:absolute; top:12px; right:12px; z-index:2;
+    width:30px; height:30px; border-radius:50%; border:none;
+    background:rgba(10,8,18,0.55); color:#fff; font-size:15px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .announce-close:hover{background:rgba(139,92,246,0.85); transform:scale(1.08);}
+  .announce-media{
+    width:100%; aspect-ratio:16/9; background:linear-gradient(165deg,#2A1B5C,#141024 65%);
+    background-size:cover; background-position:center; position:relative;
+  }
+  .announce-badge{
+    position:absolute; top:14px; left:14px;
+    background:linear-gradient(135deg,var(--orange),var(--red)); color:#fff;
+    font-size:11px; font-weight:800; letter-spacing:.03em;
+    padding:5px 12px; border-radius:999px;
+  }
+  .announce-body{padding:22px 24px 26px; text-align:center;}
+  .announce-title{font-size:19px; line-height:1.3; margin-bottom:10px; color:var(--text);}
+  .announce-desc{font-size:13.5px; color:var(--text-dim); line-height:1.6; margin-bottom:20px;}
+  .announce-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(270deg, #F97316, #F43F5E, #8B5CF6, #3B82F6, #22C55E, #F97316);
+    background-size:400% 400%;
+    color:#fff; padding:13px 28px; border-radius:999px; font-size:14.5px; font-weight:800;
+    letter-spacing:.02em; text-shadow:0 1px 3px rgba(0,0,0,0.35);
+    animation:announceCtaGlow 2.4s linear infinite, announceCtaPulse 1.2s ease-in-out infinite;
+  }
+  @keyframes announceCtaGlow{
+    0%{background-position:0% 50%;}
+    100%{background-position:100% 50%;}
+  }
+  @keyframes announceCtaPulse{
+    0%,100%{transform:scale(1); box-shadow:0 0 22px rgba(139,92,246,0.5);}
+    50%{transform:scale(1.06); box-shadow:0 0 36px rgba(244,63,94,0.65);}
+  }
+  .announce-cta .blink-text{animation:announceBlink 1s ease-in-out infinite;}
+  @keyframes announceBlink{
+    0%,100%{opacity:1;}
+    50%{opacity:.4;}
+  }
+  @media (max-width:480px){
+    .announce-card-wrap{max-width:340px; border-radius:18px;}
+    .announce-card{border-radius:15px;}
+    .announce-body{padding:18px 18px 22px;}
+    .announce-title{font-size:16.5px;}
+    .announce-desc{font-size:12.5px;}
+    .announce-cta{padding:11px 22px; font-size:13px;}
+  }
+
   /* ===== TRANG CHI TIẾT (nhúng chung trong file này) ===== */
   #detailView{display:none;}
   .d-wrap{max-width:920px; margin:0 auto; padding:40px 32px 100px;}
@@ -734,6 +814,34 @@
 <div class="lightbox" id="lightbox">
   <div class="lightbox-inner" id="lightboxInner">
     <button class="lightbox-close" id="lightboxClose">✕</button>
+  </div>
+</div>
+
+<!-- ========== POPUP THÔNG BÁO KHI KHÁCH TRUY CẬP ==========
+  Sửa nội dung popup này ở biến "ANNOUNCE_POPUP" trong phần <script> bên dưới:
+  - image: ảnh hiển thị trên popup
+  - badge: nhãn nhỏ góc trên ảnh (để "" nếu không muốn hiện)
+  - title: tiêu đề popup
+  - desc: mô tả ngắn
+  - buttonText: chữ nút bấm (chữ này sẽ nhấp nháy)
+  - link: link khi bấm nút — có thể là link 1 sản phẩm trong web, ví dụ "#/chi-tiet/1"
+    hoặc link ngoài như Zalo/Youtube
+-->
+<div class="announce-overlay" id="announceOverlay">
+  <div class="announce-card-wrap">
+    <div class="announce-card">
+      <button class="announce-close" id="announceClose" aria-label="Đóng thông báo">✕</button>
+      <div class="announce-media" id="announceMedia">
+        <span class="announce-badge" id="announceBadge"></span>
+      </div>
+      <div class="announce-body">
+        <h3 class="announce-title" id="announceTitle"></h3>
+        <p class="announce-desc" id="announceDesc"></p>
+        <a class="announce-cta" id="announceCta" href="#">
+          <span class="blink-text" id="announceCtaText"></span>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1392,6 +1500,69 @@
     },
   ];
 
+  // ======================================================
+  // POPUP THÔNG BÁO — sửa nội dung ở đây
+  // - image: ảnh hiển thị (để "" nếu không có ảnh, popup sẽ hiện nền tím mặc định)
+  // - badge: nhãn nhỏ góc ảnh, để "" nếu không cần
+  // - title / desc: tiêu đề và mô tả ngắn
+  // - buttonText: chữ nút (sẽ tự nhấp nháy)
+  // - link: bấm vào sẽ đi tới đây. Có thể trỏ tới 1 sản phẩm trong trang bằng
+  //   "#/chi-tiet/<id sản phẩm>" (id lấy trong danh sách PRODUCTS phía trên),
+  //   hoặc dán thẳng link ngoài (Zalo, Youtube...)
+  // ======================================================
+  const ANNOUNCE_POPUP = {
+    enabled: true,
+    image: "https://i.postimg.cc/q7zH9kPt/59b9fe8c-6938-4ef5-88e8-9c59f5c77a1d.png",
+    badge: "🔥 Ưu đãi hôm nay",
+    title: "App Làm Video Tự Động Đang Giảm Giá",
+    desc: "Tạo hàng loạt video bán hàng chuyên nghiệp chỉ trong vài phút — không cần biết viết prompt.",
+    buttonText: "Xem thêm →",
+    link: "#/chi-tiet/2"
+  };
+
+  function showAnnouncePopup(){
+    const cfg = ANNOUNCE_POPUP;
+    if(!cfg || !cfg.enabled) return;
+    const overlay = document.getElementById('announceOverlay');
+    if(!overlay) return;
+
+    const mediaEl = document.getElementById('announceMedia');
+    const badgeEl = document.getElementById('announceBadge');
+    const titleEl = document.getElementById('announceTitle');
+    const descEl = document.getElementById('announceDesc');
+    const ctaEl = document.getElementById('announceCta');
+    const ctaTextEl = document.getElementById('announceCtaText');
+
+    if(cfg.image){
+      mediaEl.style.backgroundImage = `url(${cfg.image})`;
+    } else {
+      mediaEl.style.backgroundImage = '';
+    }
+    badgeEl.textContent = cfg.badge || '';
+    badgeEl.style.display = cfg.badge ? 'inline-block' : 'none';
+    titleEl.textContent = cfg.title || '';
+    descEl.textContent = cfg.desc || '';
+    ctaTextEl.textContent = cfg.buttonText || 'Xem thêm →';
+    ctaEl.setAttribute('href', cfg.link || '#/');
+
+    ctaEl.addEventListener('click', () => { overlay.classList.remove('open'); }, { once:true });
+
+    overlay.classList.add('open');
+  }
+
+  function closeAnnouncePopup(){
+    const overlay = document.getElementById('announceOverlay');
+    if(overlay) overlay.classList.remove('open');
+  }
+
+  const announceOverlay = document.getElementById('announceOverlay');
+  const announceClose = document.getElementById('announceClose');
+  if(announceClose){ announceClose.addEventListener('click', closeAnnouncePopup); }
+  if(announceOverlay){
+    announceOverlay.addEventListener('click', (e) => { if(e.target === announceOverlay) closeAnnouncePopup(); });
+  }
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeAnnouncePopup(); });
+
   const homeView = document.getElementById('homeView');
   const detailView = document.getElementById('detailView');
   const voiceAppView = document.getElementById('voiceAppView');
@@ -1564,6 +1735,9 @@
   renderFAQ();
   document.querySelectorAll('.reveal').forEach(el => { if(io) io.observe(el); });
   route();
+
+  // Hiện popup thông báo mỗi lần khách truy cập trang
+  setTimeout(showAnnouncePopup, 600);
 
   (function(){
     const el = document.getElementById('visitCount');
