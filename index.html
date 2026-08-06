@@ -27,8 +27,13 @@
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    background:var(--bg); color:var(--text); font-family:'Inter', sans-serif;
+    background-color:var(--bg); color:var(--text); font-family:'Inter', sans-serif;
     line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+    background-image:
+      linear-gradient(rgba(167,139,250,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(167,139,250,0.07) 1px, transparent 1px);
+    background-size:44px 44px;
+    background-position:-1px -1px;
   }
   h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
   .mono{font-family:'IBM Plex Mono', monospace;}
@@ -821,10 +826,10 @@
   Sửa nội dung popup này ở biến "ANNOUNCE_POPUP" trong phần <script> bên dưới:
   - image: ảnh hiển thị trên popup
   - badge: nhãn nhỏ góc trên ảnh (để "" nếu không muốn hiện)
-  - title: Ứng Dụng Voice Vĩnh Viễn
-  - desc: Bạn mua 1 lần , cài về máy sử dụng vĩnh viễn , trong ứng dụng đã có sẵn 20 giọng , và đặc biệt bạn có thể clone được giọng nói
+  - title: tiêu đề popup
+  - desc: mô tả ngắn
   - buttonText: chữ nút bấm (chữ này sẽ nhấp nháy)
-  - link: link khi bấm nút — có thể là link 1 sản phẩm trong web, ví dụ "#/giong-doc"
+  - link: link khi bấm nút — có thể là link 1 sản phẩm trong web, ví dụ "#/chi-tiet/1"
     hoặc link ngoài như Zalo/Youtube
 -->
 <div class="announce-overlay" id="announceOverlay">
@@ -1514,10 +1519,10 @@
     enabled: true,
     image: "https://i.postimg.cc/q7zH9kPt/59b9fe8c-6938-4ef5-88e8-9c59f5c77a1d.png",
     badge: "🔥 Ưu đãi hôm nay",
-    title: "App Làm Video Tự Động Đang Giảm Giá",
-    desc: "Tạo hàng loạt video bán hàng chuyên nghiệp chỉ trong vài phút — không cần biết viết prompt.",
+    title: "Ứng Dụng Voice Vĩnh Viễn",
+    desc: "Bạn mua 1 lần , cài về máy sử dụng vĩnh viễn , trong ứng dụng đã có sẵn 20 giọng , và đặc biệt bạn có thể clone được giọng nói",
     buttonText: "Xem thêm →",
-    link: "#/chi-tiet/2"
+    link: "#/giong-doc"
   };
 
   function showAnnouncePopup(){
