@@ -104,9 +104,9 @@
 
 <div class="page-note">🔍 Đây là bản xem trước popup — Motion Control ở trên, Voice App ở dưới. Cuộn trong popup để xem hết.</div>
 
-<div class="announce-overlay">
+<div class="announce-overlay" id="announceOverlay">
   <div class="announce-card-wrap">
-    <button class="announce-close">✕</button>
+    <button class="announce-close" id="announceClose">✕</button>
     <div class="announce-card">
       <!-- ITEM 1: MOTION CONTROL (đưa lên trên) -->
       <div class="announce-item">
@@ -138,4 +138,12 @@
 </div>
 
 </body>
+<script>
+  const overlay = document.getElementById('announceOverlay');
+  const closeBtn = document.getElementById('announceClose');
+  function closePopup(){ overlay.style.display = 'none'; }
+  closeBtn.addEventListener('click', closePopup);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closePopup(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closePopup(); });
+</script>
 </html>
