@@ -211,6 +211,21 @@
   .flash-sub{display:flex; align-items:center; gap:12px; color:var(--text-dim); font-size:13.5px; margin:6px 0 0 56px;}
   .countdown{color:var(--pink); font-family:'IBM Plex Mono', monospace; font-weight:600;}
 
+  .video-maker{padding:28px 32px 54px; max-width:1100px; margin:0 auto;}
+  .maker-card{background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:24px;}
+  .maker-card h2{font-size:24px; margin-bottom:8px;}
+  .maker-card > p{color:var(--text-dim); margin-bottom:20px;}
+  .maker-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .maker-field{display:flex; flex-direction:column; gap:7px; color:var(--text-dim); font-size:13px; font-weight:600;}
+  .maker-field.full{grid-column:1/-1;}
+  .maker-field input,.maker-field select{width:100%; border:1px solid var(--line); border-radius:10px; padding:12px; background:var(--bg); color:var(--text); font:inherit;}
+  .maker-actions{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:20px;}
+  .maker-status{color:var(--text-dim); font-size:13px;}
+  .maker-status.error{color:#fb7185;}
+  .maker-result{display:none; margin-top:22px;}
+  .maker-result video{display:block; width:min(100%,360px); max-height:640px; background:#000; border-radius:14px; margin-bottom:14px;}
+  @media(max-width:700px){.video-maker{padding-left:14px;padding-right:14px}.maker-grid{grid-template-columns:1fr}.maker-field.full{grid-column:auto}}
+
   .cases{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -587,6 +602,43 @@
                 <div class="play-badge"></div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="video-maker" id="start">
+        <div class="maker-card">
+          <h2>Tạo video ngay trên trình duyệt</h2>
+          <p>Tải một ảnh lên, thêm nội dung và xuất video WebM. Ảnh chỉ được xử lý trên thiết bị của bạn.</p>
+          <div class="maker-grid">
+            <label class="maker-field full">Ảnh dùng trong video
+              <input type="file" id="makerImage" accept="image/*" required>
+            </label>
+            <label class="maker-field">Dòng chữ trên video
+              <input type="text" id="makerCaption" maxlength="100" placeholder="Nhập nội dung giới thiệu sản phẩm">
+            </label>
+            <label class="maker-field">Thời lượng
+              <select id="makerDuration">
+                <option value="3">3 giây</option>
+                <option value="5" selected>5 giây</option>
+                <option value="8">8 giây</option>
+              </select>
+            </label>
+            <label class="maker-field">Tỉ lệ khung hình
+              <select id="makerRatio">
+                <option value="9:16" selected>Dọc 9:16</option>
+                <option value="1:1">Vuông 1:1</option>
+                <option value="16:9">Ngang 16:9</option>
+              </select>
+            </label>
+          </div>
+          <div class="maker-actions">
+            <button type="button" class="btn" id="makeVideoBtn">🎬 Tạo video</button>
+            <span class="maker-status" id="makerStatus" role="status" aria-live="polite">Chọn ảnh để bắt đầu.</span>
+          </div>
+          <div class="maker-result" id="makerResult">
+            <video id="makerPreview" controls playsinline></video>
+            <a class="btn" id="makerDownload" download="mau-video.webm">⬇ Tải video xuống</a>
           </div>
         </div>
       </section>
@@ -1952,6 +2004,118 @@
   lightboxClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLightbox(); });
+
+  const makeVideoBtn = document.getElementById('makeVideoBtn');
+  const makerStatus = document.getElementById('makerStatus');
+  const makerResult = document.getElementById('makerResult');
+  const makerPreview = document.getElementById('makerPreview');
+  const makerDownload = document.getElementById('makerDownload');
+  let makerVideoUrl = '';
+
+  function setMakerStatus(message, isError = false){
+    makerStatus.textContent = message;
+    makerStatus.classList.toggle('error', isError);
+  }
+
+  function loadMakerImage(file){
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const url = URL.createObjectURL(file);
+      image.onload = () => { URL.revokeObjectURL(url); resolve(image); };
+      image.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Không thể đọc ảnh đã chọn.')); };
+      image.src = url;
+    });
+  }
+
+  function drawMakerFrame(ctx, image, caption, progress){
+    const {width, height} = ctx.canvas;
+    ctx.fillStyle = '#080611';
+    ctx.fillRect(0, 0, width, height);
+    const scale = Math.max(width / image.width, height / image.height) * (1 + progress * 0.06);
+    const drawWidth = image.width * scale;
+    const drawHeight = image.height * scale;
+    ctx.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
+    const shade = ctx.createLinearGradient(0, height * .55, 0, height);
+    shade.addColorStop(0, 'rgba(0,0,0,0)');
+    shade.addColorStop(1, 'rgba(0,0,0,.78)');
+    ctx.fillStyle = shade;
+    ctx.fillRect(0, 0, width, height);
+    if(!caption) return;
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `700 ${Math.round(width * .055)}px Inter, Arial, sans-serif`;
+    const words = caption.split(/\s+/);
+    const lines = [];
+    let line = '';
+    words.forEach(word => {
+      const candidate = line ? `${line} ${word}` : word;
+      if(ctx.measureText(candidate).width > width * .84 && line){ lines.push(line); line = word; }
+      else line = candidate;
+    });
+    if(line) lines.push(line);
+    const lineHeight = width * .072;
+    const startY = height - Math.max(height * .12, lines.length * lineHeight);
+    lines.slice(0, 3).forEach((text, index) => ctx.fillText(text, width / 2, startY + index * lineHeight));
+  }
+
+  if(makeVideoBtn){
+    makeVideoBtn.addEventListener('click', async () => {
+      const file = document.getElementById('makerImage').files[0];
+      if(!file){ setMakerStatus('Vui lòng chọn một ảnh trước khi tạo video.', true); return; }
+      if(!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream){
+        setMakerStatus('Trình duyệt này chưa hỗ trợ xuất video. Hãy dùng Chrome hoặc Edge phiên bản mới.', true);
+        return;
+      }
+      makeVideoBtn.disabled = true;
+      makerResult.style.display = 'none';
+      setMakerStatus('Đang chuẩn bị video…');
+      try{
+        const image = await loadMakerImage(file);
+        const ratio = document.getElementById('makerRatio').value;
+        const dimensions = ratio === '16:9' ? [1280, 720] : ratio === '1:1' ? [720, 720] : [720, 1280];
+        const duration = Number(document.getElementById('makerDuration').value) * 1000;
+        const caption = document.getElementById('makerCaption').value.trim();
+        const canvas = document.createElement('canvas');
+        [canvas.width, canvas.height] = dimensions;
+        const ctx = canvas.getContext('2d');
+        const stream = canvas.captureStream(30);
+        const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+        const recorder = new MediaRecorder(stream, {mimeType, videoBitsPerSecond: 5000000});
+        const chunks = [];
+        recorder.ondataavailable = event => { if(event.data.size) chunks.push(event.data); };
+        const finished = new Promise((resolve, reject) => {
+          recorder.onstop = resolve;
+          recorder.onerror = () => reject(new Error('Trình duyệt không thể ghi video.'));
+        });
+        recorder.start(250);
+        const startedAt = performance.now();
+        await new Promise(resolve => {
+          function render(now){
+            const elapsed = now - startedAt;
+            drawMakerFrame(ctx, image, caption, Math.min(elapsed / duration, 1));
+            setMakerStatus(`Đang tạo video… ${Math.min(100, Math.round(elapsed / duration * 100))}%`);
+            if(elapsed < duration) requestAnimationFrame(render);
+            else resolve();
+          }
+          requestAnimationFrame(render);
+        });
+        recorder.stop();
+        await finished;
+        stream.getTracks().forEach(track => track.stop());
+        if(makerVideoUrl) URL.revokeObjectURL(makerVideoUrl);
+        makerVideoUrl = URL.createObjectURL(new Blob(chunks, {type: 'video/webm'}));
+        makerPreview.src = makerVideoUrl;
+        makerDownload.href = makerVideoUrl;
+        makerResult.style.display = 'block';
+        setMakerStatus('Video đã tạo xong. Bạn có thể xem thử hoặc tải xuống.');
+      } catch(error){
+        setMakerStatus(error.message || 'Không thể tạo video. Vui lòng thử lại.', true);
+      } finally {
+        makeVideoBtn.disabled = false;
+      }
+    });
+  }
 </script>
 </body>
 </html>
