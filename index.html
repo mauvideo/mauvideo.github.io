@@ -227,12 +227,15 @@
   .full-thumb:hover{transform:scale(1.02); box-shadow:0 12px 28px -12px rgba(138,90,0,0.48); z-index:2;}
   .full-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
   .featured-preview-copy{max-width:620px;}
-  .featured-preview-copy .preview-kicker{
-    font-family:'IBM Plex Mono', monospace; color:#6D28D9;
-    font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
-  }
   .featured-preview-copy h3{color:#17132C; font-size:clamp(24px,3vw,36px); line-height:1.16; margin:12px 0;}
-  .featured-preview-copy p{color:#403B54; font-size:15px; line-height:1.7; white-space:pre-line;}
+  .featured-preview-copy p{
+    color:#403B54; font-size:15px; line-height:1.7; white-space:pre-line;
+    margin-top:14px; padding:14px 16px; max-height:190px; overflow-y:auto;
+    border:1px solid rgba(109,40,217,0.32); border-radius:12px;
+    background:rgba(255,255,255,0.46);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.58);
+    scrollbar-width:thin; scrollbar-color:#B8860B rgba(255,255,255,0.2);
+  }
   .preview-edit-hint{
     display:inline-flex; margin-top:18px; padding:7px 11px; border-radius:8px;
     border:1px solid #8B5CF6; background:rgba(255,255,255,0.42); color:#32265A; font-size:11px;
@@ -960,10 +963,9 @@
     // coverImage: DÁN LINK ẢNH BÌA NGANG 16:9 bạn đã tải lên.
     // ======================================================
     const HERO_FULL_PREVIEW = {
-      barTitle: "Video gái nhẩy theo mẫu - Rimotion control",
-      kicker: "Một ảnh - một video  mẫu - 1 video hoàn chỉnh",
+      barTitle: "Video nổi bật — Xem ứng dụng hoạt động",
       title: "Xem cách ứng dụng tạo video tự động",
-      description: "Bạn có thể viết phần mô tả video tại đây. Hãy giới thiệu ngắn gọn ứng dụng làm được gì, phù hợp với ai và lợi ích nổi bật dành cho khách hàng.",
+      description: `Bạn có thể viết phần mô tả video tại đây. Hãy giới thiệu ngắn gọn ứng dụng làm được gì, phù hợp với ai và lợi ích nổi bật dành cho khách hàng.`,
       youtube: "ZupqSxEMZ-k", // <-- Dán ID video YouTube vào đây
       coverImage: "https://img.youtube.com/vi/ZupqSxEMZ-k/maxresdefault.jpg" // <-- Dán link ảnh bìa vào đây
     };
@@ -981,10 +983,8 @@
           <div class="play-center" data-type="youtube" data-id="${cfg.youtube}"></div>
         </div>
         <div class="featured-preview-copy">
-          <div class="preview-kicker">${cfg.kicker}</div>
           <h3>${cfg.title}</h3>
           <p>${cfg.description}</p>
-          <span class="preview-edit-hint">Bấm vào ảnh bìa để xem video YouTube</span>
         </div>`;
     }
 
