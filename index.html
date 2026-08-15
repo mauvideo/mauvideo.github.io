@@ -106,11 +106,11 @@
   .hero{padding:36px 32px 0;}
   .hero-card{
     background:radial-gradient(circle at 20% 0%, rgba(139,92,246,0.18), transparent 55%), var(--surface);
-    border:1px solid var(--line); border-radius:22px; padding:56px 48px;
+    border:0.5px solid rgba(139,92,246,0.26); border-radius:22px; padding:28px 40px;
     display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
     position:relative; overflow:hidden;
   }
-  .hero-left{display:flex; align-items:flex-start; gap:22px;}
+  .hero-left{display:flex; align-items:flex-start; gap:18px;}
   .hero-icon{
     width:64px; height:64px; border-radius:16px; flex-shrink:0;
     background:rgba(139,92,246,0.16); border:1px solid var(--line);
@@ -121,11 +121,11 @@
   .badge-pill{
     display:inline-flex; align-items:center; gap:7px;
     border:1px solid rgba(167,139,250,0.4); color:var(--purple-soft);
-    padding:7px 16px; border-radius:999px; font-size:12.5px; font-weight:600; margin-bottom:18px;
+    padding:7px 16px; border-radius:999px; font-size:12.5px; font-weight:600; margin-bottom:0;
   }
-  .hero h1{font-size:clamp(26px,2.6vw,36px); line-height:1.18; margin-bottom:16px; color:var(--text);}
+  .hero h1{font-size:clamp(26px,2.6vw,36px); line-height:1.18; margin-bottom:0; color:var(--text);}
   .hero h1 .hl{color:var(--purple-soft);}
-  .hero p.lead{font-size:15px; color:var(--text-dim); max-width:420px; margin-bottom:26px;}
+  .hero p.lead{font-size:15px; color:var(--text-dim); max-width:420px; margin-bottom:4px;}
 
   .hero-preview{
     background:var(--surface-2); border:1px solid var(--line); border-radius:14px; overflow:hidden;
@@ -192,6 +192,57 @@
     .float-zalo{right:14px; bottom:14px; height:48px; padding:0 14px 0 10px;}
     .float-zalo .zalo-icon{width:32px; height:32px;}
     .float-zalo .zalo-label{font-size:12.5px;}
+  }
+
+  .hero-preview-full-wrap{padding:28px 32px 0;}
+  .hero-preview-full{
+    background:linear-gradient(135deg,#F5F3FF 0%,#DBEAFE 100%);
+    border:1px solid #D4AF37; border-radius:14px; overflow:hidden;
+    box-shadow:0 0 14px rgba(246,196,83,0.34), 0 24px 70px -32px rgba(212,175,55,0.58);
+  }
+  .hero-preview-full .bar{
+    display:flex; align-items:center; min-height:52px; padding:12px 18px;
+    border-bottom:1px solid #8A5A00;
+    background:linear-gradient(90deg,#7A4E00 0%,#D4AF37 34%,#FFF0A6 52%,#D4AF37 70%,#B8860B 100%);
+  }
+  .preview-bar-title{
+    display:flex; align-items:center; gap:9px; color:#2B1B00;
+    font-size:13px; font-weight:700; letter-spacing:0.02em;
+  }
+  .preview-bar-title::before{
+    content:'▶'; width:26px; height:26px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    background:#166534; color:#fff; font-size:10px;
+    box-shadow:0 3px 8px rgba(22,101,52,0.28);
+  }
+  .featured-preview-content{
+    display:grid; grid-template-columns:minmax(360px,1.45fr) minmax(240px,1fr);
+    align-items:center; gap:28px; padding:16px;
+  }
+  .full-thumb{
+    width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; position:relative; cursor:pointer;
+    background:#09070f; transition:transform .2s ease, box-shadow .2s ease;
+    border:1px solid rgba(138,90,0,0.2);
+  }
+  .full-thumb:hover{transform:scale(1.02); box-shadow:0 12px 28px -12px rgba(138,90,0,0.48); z-index:2;}
+  .full-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .featured-preview-copy{max-width:620px;}
+  .featured-preview-copy .preview-kicker{
+    font-family:'IBM Plex Mono', monospace; color:#6D28D9;
+    font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  }
+  .featured-preview-copy h3{color:#17132C; font-size:clamp(24px,3vw,36px); line-height:1.16; margin:12px 0;}
+  .featured-preview-copy p{color:#403B54; font-size:15px; line-height:1.7; white-space:pre-line;}
+  .preview-edit-hint{
+    display:inline-flex; margin-top:18px; padding:7px 11px; border-radius:8px;
+    border:1px solid #8B5CF6; background:rgba(255,255,255,0.42); color:#32265A; font-size:11px;
+  }
+  @media (max-width:720px){
+    .hero-preview-full-wrap{padding:20px 16px 0;}
+    .featured-preview-content{grid-template-columns:1fr; gap:22px; padding:16px;}
+    .full-thumb{max-width:680px; margin:0 auto;}
+    .featured-preview-copy{text-align:center; margin:0 auto; padding:0 4px 8px;}
+    .featured-preview-copy h3{font-size:25px;}
   }
 
   .flash-strip{padding:44px 32px 18px;}
@@ -520,7 +571,7 @@
     .sidebar.open{left:0;}
     .menu-btn{display:block;}
     .topnav{display:none;}
-    .hero-card{grid-template-columns:1fr;}
+    .hero-card{grid-template-columns:1fr; padding:28px 24px;}
     .cases{grid-template-columns:repeat(3, 1fr); gap:10px; padding-left:10px; padding-right:10px;}
     .case-info{padding:8px 9px 9px;}
     .metrics{grid-template-columns:repeat(2,1fr); row-gap:24px;}
@@ -590,6 +641,15 @@
           </div>
         </div>
       </section>
+
+      <!-- ===== VIDEO NỔI BẬT — 1 video YouTube + 1 ảnh bìa ngang 16:9 ===== -->
+      <!-- Sửa toàn bộ chữ, video và ảnh bìa ở biến "HERO_FULL_PREVIEW" trong phần <script> phía dưới -->
+      <div class="hero-preview-full-wrap">
+        <div class="hero-preview-full">
+          <div class="bar"><span class="preview-bar-title" id="heroPreviewBarTitle"></span></div>
+          <div class="featured-preview-content" id="heroFullPreviewGrid"></div>
+        </div>
+      </div>
 
       <section class="flash-strip">
         <div class="flash-head">
@@ -890,6 +950,42 @@
         coverEl.style.background = 'linear-gradient(165deg,#2A1B5C,#141024 65%)';
         coverEl.innerHTML = '<div style="color:var(--text-dim); font-size:13.5px; align-self:center; margin:auto;">Chưa có video/ảnh — cập nhật trong biến VOICE_APP</div>';
       }
+    }
+
+    // ======================================================
+    // VIDEO NỔI BẬT NGAY DƯỚI HERO — SỬA NỘI DUNG Ở ĐÂY
+    // barTitle: dòng chữ thay cho 3 chấm phía trên.
+    // title / description: tiêu đề và mô tả hiển thị cạnh video.
+    // youtube: DÁN ID VIDEO YOUTUBE, là phần nằm sau "v=" trong đường dẫn.
+    // coverImage: DÁN LINK ẢNH BÌA NGANG 16:9 bạn đã tải lên.
+    // ======================================================
+    const HERO_FULL_PREVIEW = {
+      barTitle: "Video nổi bật — Xem ứng dụng hoạt động",
+      kicker: "Một video · Một câu chuyện",
+      title: "Xem cách ứng dụng tạo video tự động",
+      description: "Bạn có thể viết phần mô tả video tại đây. Hãy giới thiệu ngắn gọn ứng dụng làm được gì, phù hợp với ai và lợi ích nổi bật dành cho khách hàng.",
+      youtube: "ZupqSxEMZ-k", // <-- Dán ID video YouTube vào đây
+      coverImage: "https://img.youtube.com/vi/ZupqSxEMZ-k/maxresdefault.jpg" // <-- Dán link ảnh bìa vào đây
+    };
+
+    function renderHeroFullPreview(){
+      const grid = document.getElementById('heroFullPreviewGrid');
+      if(!grid) return;
+      const cfg = HERO_FULL_PREVIEW;
+      const barTitle = document.getElementById('heroPreviewBarTitle');
+      if(barTitle) barTitle.textContent = cfg.barTitle;
+      const cover = cfg.coverImage || `https://img.youtube.com/vi/${cfg.youtube}/maxresdefault.jpg`;
+      grid.innerHTML = `
+        <div class="full-thumb" data-youtube="${cfg.youtube}">
+          <img src="${cover}" alt="${cfg.title}" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${cfg.youtube}/hqdefault.jpg';">
+          <div class="play-center" data-type="youtube" data-id="${cfg.youtube}"></div>
+        </div>
+        <div class="featured-preview-copy">
+          <div class="preview-kicker">${cfg.kicker}</div>
+          <h3>${cfg.title}</h3>
+          <p>${cfg.description}</p>
+          <span class="preview-edit-hint">Bấm vào ảnh bìa để xem video YouTube</span>
+        </div>`;
     }
 
     const PRODUCTS = [
@@ -1812,6 +1908,7 @@
     }, { threshold: 0.15 });
   }
 
+  renderHeroFullPreview();
   renderCasesGrid();
   renderFAQ();
   document.querySelectorAll('.reveal').forEach(el => { if(io) io.observe(el); });
@@ -1872,7 +1969,7 @@
   });
 
   function bindPlayButtons(){
-    document.querySelectorAll('.case-thumb[data-youtube]').forEach(thumb => {
+    document.querySelectorAll('.case-thumb[data-youtube], .full-thumb[data-youtube]').forEach(thumb => {
       const vid = thumb.dataset.youtube;
       const playBtn = thumb.querySelector('.play-center');
       let frame = null;
