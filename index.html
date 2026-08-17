@@ -764,14 +764,6 @@
     </div>
 
     <!-- ========== TRANG APP GIỌNG ĐỌC ========== -->
-    <!--
-      HƯỚNG DẪN CẬP NHẬT NỘI DUNG TRANG NÀY:
-      Kéo xuống phần <script>, tìm biến "VOICE_APP" ở gần đầu để:
-      - Dán ID video Youtube (hoặc để trống và dùng ảnh cover) vào "youtube"
-      - Sửa mô tả dài trong "desc"
-      - Sửa giá bán trong "priceNow" / "priceOld"
-      - Sửa danh sách tính năng trong "features"
-    -->
     <div id="voiceAppView" style="display:none;">
       <div class="d-wrap">
         <div class="d-breadcrumb"><a href="#/">Trang chủ</a> / <span>App giọng đọc</span></div>
@@ -811,13 +803,12 @@
       </div>
     </div>
 
-    <!-- ========== TRANG GIỚI THIỆU (bạn tự viết nội dung ở đây) ========== -->
+    <!-- ========== TRANG GIỚI THIỆU ========== -->
     <div id="aboutView" style="display:none;">
       <div class="d-wrap">
         <div class="d-breadcrumb"><a href="#/">Trang chủ</a> / <span>Giới thiệu</span></div>
         <h1 class="d-title">Giới thiệu</h1>
         <p class="d-desc">
-          <!-- Xóa dòng chữ mẫu bên dưới, thay bằng nội dung giới thiệu thật của bạn -->
           Nội dung giới thiệu sẽ được cập nhật sau.
         </p>
       </div>
@@ -877,11 +868,11 @@
   </div>
 </div>
 
-<a href="https://zalo.me/0342894222" target="_blank" rel="noopener" class="float-zalo" aria-label="Chat Zalo">
+<a href="https://zalo.me/g/iiq74tkcsyd1vo8caqqo" target="_blank" rel="noopener" class="float-zalo" aria-label="Chat Zalo">
   <span class="zalo-icon">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0068FF"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="800" font-family="Arial" fill="#fff">Zalo</text></svg>
   </span>
-  <span class="zalo-label">Cần hỗ trợ</span>
+  <span class="zalo-label">Vào nhóm học AI</span>
 </a>
 
 <div class="lightbox" id="lightbox">
@@ -890,16 +881,6 @@
   </div>
 </div>
 
-<!-- ========== POPUP THÔNG BÁO KHI KHÁCH TRUY CẬP ==========
-  Sửa nội dung popup này ở biến "ANNOUNCE_POPUP" trong phần <script> bên dưới:
-  - image: ảnh hiển thị trên popup
-  - badge: nhãn nhỏ góc trên ảnh (để "" nếu không muốn hiện)
-  - title: tiêu đề popup
-  - desc: mô tả ngắn
-  - buttonText: chữ nút bấm (chữ này sẽ nhấp nháy)
-  - link: link khi bấm nút — có thể là link 1 sản phẩm trong web, ví dụ "#/chi-tiet/1"
-    hoặc link ngoài như Zalo/Youtube
--->
 <div class="announce-overlay" id="announceOverlay">
   <div class="announce-card-wrap">
     <div class="announce-card">
@@ -919,16 +900,6 @@
 </div>
 
 <script>
-    // ======================================================
-    // APP GIỌNG ĐỌC — sửa nội dung trang con tại đây
-    // - youtube: dán ID video Youtube demo (phần sau "v=" trong link)
-    //   Ví dụ link: https://www.youtube.com/watch?v=dQw4w9WgXcQ -> youtube: "dQw4w9WgXcQ"
-    //   Nếu chưa có video, để trống "" và dùng "coverImage" thay thế.
-    // - coverImage: link ảnh cover (dùng khi không có youtube)
-    // - desc: mô tả dài, có thể xuống dòng thoải mái
-    // - priceNow / priceOld: giá bán / giá gốc (để "0đ" nếu không muốn hiện giá gốc)
-    // - features: danh sách tính năng nổi bật
-    // ======================================================
     const VOICE_APP = {
       title: "App Giọng Đọc , có clone giọng nói",
       subtitle: "Tự động tạo giọng đọc chuyên nghiệp cho video, không cần thu âm",
@@ -967,19 +938,12 @@
       }
     }
 
-    // ======================================================
-    // VIDEO NỔI BẬT NGAY DƯỚI HERO — SỬA NỘI DUNG Ở ĐÂY
-    // barTitle: dòng chữ thay cho 3 chấm phía trên.
-    // title / description: tiêu đề và mô tả hiển thị cạnh video.
-    // youtube: DÁN ID VIDEO YOUTUBE, là phần nằm sau "v=" trong đường dẫn.
-    // coverImage: DÁN LINK ẢNH BÌA NGANG 16:9 bạn đã tải lên.
-    // ======================================================
     const HERO_FULL_PREVIEW = {
       barTitle: "Video gái nhẩy theo mẫu - Rimotion control",
       title: "Xem cách ứng dụng tạo video ảnh nhẩy theo video mẫu , cách này đơn giản ai cũng tự làm được ",
       description: `Các bạn chỉ cần tải video gái nhẩy các bạn thích , 1 ảnh người mẫu của các bạn tải lên và nhấn chạy đợi sẽ được 1 video hoàn chỉnh siêu nét , nhẩy bám chi tiết mẫu , ngoài ra còn có thể hát nhép i đúc luôn ,làm dạng video này view và lượt đăng ký lên theo hàng giờ và hàng ngày , các bạn đang xây kênh muốn đủ người đăng ký theo dõi thì dùng app này nhé , sản phẩm chạy trực tiếp trên cloud không cần cài gì về máy , cách này 1 ngày các bạn có thể vô số video gái nhẩy mà không lo mất điểm tín dụng , không phí gì cả nhé.`,
-      youtube: "Z7EgStP8F08", // <-- Dán ID video YouTube vào đây
-      coverImage: "https://i.ibb.co/XkdwSfHP/6ff722f0-3e00-49a2-bf38-72f36788c9f0.png" // <-- Dán link ảnh bìa vào đây
+      youtube: "Z7EgStP8F08",
+      coverImage: "https://i.ibb.co/XkdwSfHP/6ff722f0-3e00-49a2-bf38-72f36788c9f0.png"
     };
 
     function renderHeroFullPreview(){
@@ -1690,16 +1654,6 @@
     },
   ];
 
-  // ======================================================
-  // POPUP THÔNG BÁO — sửa nội dung ở đây
-  // - image: ảnh hiển thị (để "" nếu không có ảnh, popup sẽ hiện nền tím mặc định)
-  // - badge: nhãn nhỏ góc ảnh, để "" nếu không cần
-  // - title / desc: tiêu đề và mô tả ngắn
-  // - buttonText: chữ nút (sẽ tự nhấp nháy)
-  // - link: bấm vào sẽ đi tới đây. Có thể trỏ tới 1 sản phẩm trong trang bằng
-  //   "#/chi-tiet/<id sản phẩm>" (id lấy trong danh sách PRODUCTS phía trên),
-  //   hoặc dán thẳng link ngoài (Zalo, Youtube...)
-  // ======================================================
   const ANNOUNCE_POPUP = {
     enabled: true,
     image: "https://i.ibb.co/7x6xGDdy/1786006137334-4078990146646504961-4078990146646504961-f38bb78ce3dcb795571bd6bd9dabf314.jpg",
@@ -1927,7 +1881,6 @@
   document.querySelectorAll('.reveal').forEach(el => { if(io) io.observe(el); });
   route();
 
-  // Hiện popup thông báo mỗi lần khách truy cập trang
   setTimeout(showAnnouncePopup, 600);
 
   (function(){
@@ -1999,7 +1952,6 @@
         requestAnimationFrame(() => frame.classList.add('on'));
         if(playBtn) playBtn.classList.remove('show');
 
-        // Nút tạm dừng thủ công (cách 2) — hiện góc trên khi video đang phát
         pauseBtn = document.createElement('button');
         pauseBtn.className = 'video-pause-btn';
         pauseBtn.innerHTML = '⏸';
@@ -2029,15 +1981,12 @@
         }
       });
 
-      // Trên máy tính (có chuột): chỉ cần rê chuột vào là nút play tự hiện ngay, không cần bấm
       thumb.addEventListener('mouseenter', () => {
         if(frame) return;
         revealed = true;
         if(playBtn) playBtn.classList.add('show');
       });
 
-      // Đã bỏ: tự động tạm dừng video khi rê chuột ra khỏi thẻ.
-      // Video giờ chỉ dừng khi bấm nút tạm dừng (⏸) hoặc bấm ra ngoài lightbox.
       thumb.addEventListener('mouseleave', () => {
         if(!frame && playBtn){
           playBtn.classList.remove('show');
